@@ -121,7 +121,8 @@ namespace Duende
                 // interactive client using code flow + pkce
                 new Client
                 {
-                    ClientId = "interactive",
+                    ClientId = "weather-mvc-interactive-auth",
+                    ClientName = "Weather MVC Interactive OIDC Auth Client",
                     ClientSecrets = {new Secret("SuperSecretPassword".Sha256())},
 
                     AllowedGrantTypes = GrantTypes.Code,
@@ -133,7 +134,7 @@ namespace Duende
                     AllowOfflineAccess = true,
                     AllowedScopes = { "openid", "profile", "weatherapi.read" },
                     RequirePkce = true,
-                    RequireConsent = true,
+                    //RequireConsent = true,
                     AllowPlainTextPkce = false
                 }
             };

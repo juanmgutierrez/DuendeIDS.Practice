@@ -4,6 +4,8 @@ using System.Text.Json;
 using WeatherMVC.Models;
 using WeatherMVC.Services;
 using IdentityModel.Client;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace WeatherMVC.Controllers;
 public class HomeController : Controller
@@ -27,12 +29,14 @@ public class HomeController : Controller
         return View();
     }
 
+    [Authorize]
     public async Task<IActionResult> Weather()
     {
-        var token = await _tokenService.GetToken("weatherapi.read");
+        //var accessToken = await _tokenService.GetToken("weatherapi.read").AccessToken;
+        var accessToken = await HttpContext.GetTokenAsync("access_token");
         
         using var client = new HttpClient();
-        client.SetBearerToken(token.AccessToken);
+        client.SetBearerToken(accessToken);
 
         var result = await client.GetAsync("https://localhost:5445/weatherforecast");
         if(!result.IsSuccessStatusCode)

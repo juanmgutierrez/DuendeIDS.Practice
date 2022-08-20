@@ -2,6 +2,7 @@ using Duende;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddRazorPages();
 builder.Services.AddIdentityServer(opt =>
 {
     opt.Events.RaiseFailureEvents = true;
@@ -20,6 +21,9 @@ var app = builder.Build();
 
 app.UseIdentityServer();
 
-app.MapGet("/", () => "Hello World!");
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthorization();
+app.MapRazorPages().RequireAuthorization();
 
 app.Run();
